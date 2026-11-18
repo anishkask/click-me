@@ -39,13 +39,13 @@ body {
 header h1 {
   font-family: var(--pixel);
   font-weight: 400;
-  font-size: clamp(40px, 7vw, 64px);
-  line-height: 0.95;
+  /* Scales with the screen so the whole heading stays on one line. */
+  font-size: clamp(14px, calc((100vw - 32px) / 28), 34px);
+  line-height: 1;
   margin: 0;
-  max-width: 20ch;
+  white-space: nowrap;
   color: var(--navy);
   letter-spacing: 0.02em;
-  text-wrap: balance;
   text-shadow:
     3px 3px 0 var(--white),
     5px 5px 0 var(--teal);
@@ -104,16 +104,45 @@ header h1 {
   gap: 4px;
 }
 .bar .dots i {
-  display: inline-grid;
-  place-items: center;
+  position: relative;
+  display: block;
   width: 18px;
   height: 16px;
   background: var(--baby);
   border: 2px solid;
   border-color: var(--white) var(--navy) var(--navy) var(--white);
-  color: var(--navy);
-  font: 700 11px/1 var(--mono);
-  font-style: normal;
+}
+.bar .dots i::before,
+.bar .dots i::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%);
+}
+.bar .dots .min::before {
+  width: 8px;
+  height: 2px;
+  background: var(--navy);
+}
+.bar .dots .max::before {
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--navy);
+  border-top-width: 3px;
+}
+.bar .dots .close::before,
+.bar .dots .close::after {
+  width: 10px;
+  height: 2px;
+  background: var(--navy);
+}
+.bar .dots .close::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.bar .dots .close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 .body {
   padding: 16px;
@@ -318,7 +347,7 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 6px;
   padding: 8px 4px 6px;
   font: inherit;
@@ -330,11 +359,15 @@ textarea {
   border-color: var(--white) var(--navy) var(--navy) var(--white);
   cursor: pointer;
 }
-.tile svg {
+.tile .thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 46px;
-  width: auto;
-  max-width: 100%;
+}
+.tile svg {
   display: block;
+  flex: none;
 }
 .tile:hover {
   background: var(--baby);
@@ -402,14 +435,6 @@ textarea {
 .swatch[aria-pressed='true'] {
   outline: 3px solid var(--teal);
   outline-offset: 1px;
-}
-input[type='color'] {
-  width: 34px;
-  height: 28px;
-  padding: 0;
-  border: 2px solid var(--navy);
-  background: var(--white);
-  cursor: pointer;
 }
 .lbl {
   display: block;

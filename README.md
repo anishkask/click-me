@@ -9,7 +9,7 @@ Format any link into a fun, clickable design. Paste a link, pick a shape, and co
 - **Shapes:** heart, star, cat, bunny, paw, flower, butterfly and smiley
 - **Lines and trails:** two diagonals, vertical, straight line, wave and zigzag
 - **Characters:** spell your own text, or use hearts, stars, flowers, faces and music symbols
-- **Color:** solid, gradient, rainbow, holographic or alternating, with a swatch palette and custom color pickers
+- **Color:** solid, gradient, rainbow, holographic or alternating, with a swatch palette
 - **Layout:** three sizes, left or centered, optional underline
 - **Fallback link:** an optional plain text link under the design, in case a mail app mangles the shape
 - **Copy:** one button copies the design for pasting into an email, another copies the raw HTML

@@ -85,17 +85,18 @@
     flower: {
       label: 'Flower',
       rows: [
-        '....XXX....',
-        '.X..XXX..X.',
-        '.XXXXXXXXX.',
-        'XXXX...XXXX',
-        'XXXX.X.XXXX',
-        'XXXX...XXXX',
-        '.XXXXXXXXX.',
-        '.X..XXX..X.',
-        '....XXX....',
-        '.....X.....',
-        '.....X.....',
+        '......X......',
+        '.....XXX.....',
+        '....XXXXX....',
+        '..XX.XXX.XX..',
+        '.XXXX.X.XXXX.',
+        '.XXXXXXXXXXX.',
+        '.XXX.X.X.XXX.',
+        '.....XXX.....',
+        '...XXX.XXX...',
+        '..XXXX.XXXX..',
+        '..XXXX.XXXX..',
+        '...XX...XX...',
       ],
     },
     butterfly: {
@@ -138,13 +139,16 @@
     line: { label: 'Straight line', position: (i) => [0, i] },
     wave: { label: 'Wave trail', position: (i) => [i, Math.round(2.5 + 2.5 * Math.sin(i * 0.85))] },
     zigzag: { label: 'Zigzag', position: (i) => [i, [0, 1, 2, 3, 2, 1][i % 6]] },
+    squiggle: {
+      label: 'Squiggle',
+      position: (i) => [Math.round(1.5 + 1.5 * Math.sin(i * 0.9)), i],
+    },
   };
 
   const SYMBOLS = ['♥', '❤︎', '♡', '★', '☆', '✦', '✧', '✿', '❀', '☘︎', '☾', '☺', '☻', '♪', '♫'];
 
+  // Ordered around the color wheel: red through violet, then pink, crimson and black.
   const SWATCHES = [
-    '#e11d6a',
-    '#ff6fb5',
     '#ff4d4d',
     '#ff9a3c',
     '#ffd23f',
@@ -154,6 +158,8 @@
     '#1d3f9a',
     '#0a1a3f',
     '#8b5cf6',
+    '#ff6fb5',
+    '#e11d6a',
     '#111111',
   ];
 
@@ -218,9 +224,9 @@
     link: '',
     layout: null,
     count: 8,
-    fill: 'letters',
+    fill: 'text',
     text: 'I love you',
-    colorMode: 'gradient',
+    colorMode: 'solid',
     colorA: '#e11d6a',
     colorB: '#5db7ff',
     size: 'm',
@@ -312,7 +318,7 @@
 
   const isLine = () => Boolean(state.layout && LINES[state.layout]);
 
-  function letters() {
+  function textCharacters() {
     const typed = [...state.text.replace(/\s+/g, '').toUpperCase()];
     return typed.length ? typed : [...DEFAULT_LETTERS];
   }
@@ -350,8 +356,7 @@
   function cellHtml(cell, href, sizeSpec, characters) {
     const mode = COLOR_MODES.find((m) => m.id === state.colorMode);
     const color = mode.colorAt(cell, state);
-    const symbol =
-      state.fill === 'letters' ? characters[cell.index % characters.length] : state.fill;
+    const symbol = state.fill === 'text' ? characters[cell.index % characters.length] : state.fill;
     const decoration = state.underline ? 'underline' : 'none';
     const font = `bold ${sizeSpec.font}px/${sizeSpec.height}px Arial,Helvetica,'Segoe UI Symbol',sans-serif`;
 
@@ -387,7 +392,7 @@
     const { cells, rows, cols } = cellsFor(state.layout, state.count);
     const byPosition = new Map(cells.map((cell) => [`${cell.row},${cell.col}`, cell]));
     const href = escapeHtml(normalizeLink(state.link) || '#');
-    const characters = letters();
+    const characters = textCharacters();
     const centered = state.align === 'center';
 
     const tableAttrs = centered ? 'align="center" ' : '';
@@ -454,16 +459,29 @@
     return button;
   }
 
+  const THUMB_SIZE = 46;
+  const THUMB_MIN_CELLS = 6;
+
+  // Every thumbnail uses the same square size, so lines, trails and shapes of
+  // the same grid size match.
   function thumbnail(layoutId) {
-    const unit = 4;
-    const { cells, rows, cols } = cellsFor(layoutId, 6);
+    const { cells, rows, cols } = cellsFor(layoutId, THUMB_MIN_CELLS);
+    const unit = THUMB_SIZE / Math.max(rows, THUMB_MIN_CELLS);
+    const round = (value) => Number(value.toFixed(2));
     const squares = cells
-      .map(
-        (c) =>
-          `<rect x="${c.col * unit + 0.4}" y="${c.row * unit + 0.4}" width="3.2" height="3.2"/>`,
-      )
+      .map((c) => {
+        const x = round(c.col * unit + unit * 0.1);
+        const y = round(c.row * unit + unit * 0.1);
+        const side = round(unit * 0.8);
+        return `<rect x="${x}" y="${y}" width="${side}" height="${side}"/>`;
+      })
       .join('');
-    return `<svg viewBox="0 0 ${cols * unit} ${rows * unit}" aria-hidden="true" fill="currentColor">${squares}</svg>`;
+    const width = round(cols * unit);
+    const height = round(rows * unit);
+    return (
+      `<span class="thumb"><svg width="${width}" height="${height}" ` +
+      `viewBox="0 0 ${width} ${height}" aria-hidden="true" fill="currentColor">${squares}</svg></span>`
+    );
   }
 
   function mountLayoutTiles(host, entries) {
@@ -472,7 +490,7 @@
       tile.innerHTML = `${thumbnail(id)}<span>${label}</span>`;
       tile.addEventListener('click', () => {
         state.layout = id;
-        if (LINES[id] && state.fill === 'letters') state.count = clampCount(letters().length);
+        if (LINES[id] && state.fill === 'text') state.count = clampCount(textCharacters().length);
         update();
       });
       host.appendChild(tile);
@@ -514,16 +532,6 @@
       });
       host.appendChild(swatch);
     });
-
-    const picker = document.createElement('input');
-    picker.type = 'color';
-    picker.dataset.key = key;
-    picker.setAttribute('aria-label', 'Custom color');
-    picker.addEventListener('input', (event) => {
-      state[key] = event.target.value;
-      update();
-    });
-    host.appendChild(picker);
   }
 
   function markPressed(host, isPressed) {
@@ -568,9 +576,6 @@
     markPressed(el.swatchesA, (v) => v === state.colorA);
     markPressed(el.swatchesB, (v) => v === state.colorB);
 
-    el.swatchesA.querySelector('input').value = state.colorA;
-    el.swatchesB.querySelector('input').value = state.colorB;
-
     const inputs = COLOR_MODES.find((m) => m.id === state.colorMode).inputs;
     el.rowA.hidden = inputs < 1;
     el.rowB.hidden = inputs < 2;
@@ -578,7 +583,7 @@
     el.lengthRow.style.display = isLine() ? 'flex' : 'none';
     el.length.value = state.count;
     el.lengthOut.textContent = state.count;
-    el.text.disabled = state.fill !== 'letters';
+    el.text.disabled = state.fill !== 'text';
     el.fallbackRow.hidden = !state.fallback;
 
     renderPreview();
@@ -706,7 +711,7 @@
     el.text.addEventListener('input', (event) => {
       state.text = event.target.value;
       if (isLine()) {
-        state.count = clampCount(letters().length);
+        state.count = clampCount(textCharacters().length);
         el.length.value = state.count;
         el.lengthOut.textContent = state.count;
       }
@@ -751,7 +756,7 @@
   function init() {
     mountLayoutTiles(el.shapes, SHAPES);
     mountLayoutTiles(el.lines, LINES);
-    mountChips(el.fills, [['letters', 'Letters'], ...SYMBOLS.map((s) => [s, s])], (v) => {
+    mountChips(el.fills, [['text', 'Text'], ...SYMBOLS.map((s) => [s, s])], (v) => {
       state.fill = v;
     });
     mountChips(
