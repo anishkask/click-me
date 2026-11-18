@@ -19,6 +19,7 @@ body {
   margin: 0;
 }
 body {
+  position: relative;
   color: var(--navy);
   font-family: var(--mono);
   font-size: 15px;
@@ -491,5 +492,31 @@ textarea:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .spark {
     display: none;
+  }
+}
+
+/* Scrapbook stickers fill the empty margins on wide screens only. */
+.stickers {
+  display: none;
+}
+@media (min-width: 1300px) {
+  .stickers {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: calc((100vw - 980px) / 2);
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .stickers-left {
+    left: 0;
+  }
+  .stickers-right {
+    right: 0;
+  }
+  .stickers svg {
+    position: absolute;
+    overflow: visible;
   }
 }
