@@ -36,19 +36,28 @@ body {
   flex-direction: column;
   gap: 26px;
 }
+header {
+  text-align: center;
+  padding: 26px 16px 0;
+}
 header h1 {
   font-family: var(--pixel);
   font-weight: 400;
   /* Scales with the screen so the whole heading stays on one line. */
-  font-size: clamp(14px, calc((100vw - 32px) / 28), 34px);
+  font-size: clamp(20px, calc((100vw - 32px) / 17), 96px);
+  text-align: center;
   line-height: 1;
   margin: 0;
-  white-space: nowrap;
+  text-wrap: balance;
   color: var(--navy);
   letter-spacing: 0.02em;
-  text-shadow:
-    3px 3px 0 var(--white),
-    5px 5px 0 var(--teal);
+  text-shadow: 3px 3px 0 var(--white);
+}
+header h1 .hl {
+  color: var(--blue);
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.12em;
 }
 .main {
   display: grid;
@@ -92,7 +101,7 @@ header h1 {
   align-items: center;
   justify-content: space-between;
   padding: 4px 6px 4px 10px;
-  background: linear-gradient(90deg, var(--navy), var(--blue) 70%, var(--teal));
+  background: var(--navy);
   color: var(--white);
   font-family: var(--pixel);
   font-size: 22px;

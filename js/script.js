@@ -85,18 +85,24 @@
     flower: {
       label: 'Flower',
       rows: [
-        '......X......',
-        '.....XXX.....',
-        '....XXXXX....',
-        '..XX.XXX.XX..',
-        '.XXXX.X.XXXX.',
-        '.XXXXXXXXXXX.',
-        '.XXX.X.X.XXX.',
-        '.....XXX.....',
-        '...XXX.XXX...',
-        '..XXXX.XXXX..',
-        '..XXXX.XXXX..',
-        '...XX...XX...',
+        '......XXX......',
+        '.....XXXXX.....',
+        '.....XXXXX.....',
+        '..XXXXXXXXXXX..',
+        '..XXXXXXXXXXX..',
+        '.XXXXX...XXXXX.',
+        '..XXXX...XXXX..',
+        '...XXX...XXX...',
+        '...XXXXXXXXX...',
+        '...XXXXXXXXX...',
+        '...XXXXXXXXX...',
+        '....XXXXXXX....',
+        '.......X.......',
+        '....XX.X.......',
+        '.....XXX.XX....',
+        '.......XXX.....',
+        '.......X.......',
+        '.......X.......',
       ],
     },
     butterfly: {
@@ -127,6 +133,44 @@
         'XXX.....XXX',
         '.XXXXXXXXX.',
         '...XXXXX...',
+      ],
+    },
+    squareSpiral: {
+      label: 'Square spiral',
+      rows: [
+        'XXXXXXXXXXXXX',
+        '............X',
+        'XXXXXXXXXXX.X',
+        'X.........X.X',
+        'X.XXXXXXX.X.X',
+        'X.X.....X.X.X',
+        'X.X.XXX.X.X.X',
+        'X.X.X...X.X.X',
+        'X.X.XXXXX.X.X',
+        'X.X.......X.X',
+        'X.XXXXXXXXX.X',
+        'X...........X',
+        'XXXXXXXXXXXXX',
+      ],
+    },
+    roundSpiral: {
+      label: 'Round spiral',
+      rows: [
+        '......XXXXXXXX...',
+        '.....XX......XX..',
+        '....XX........XX.',
+        '....X...XXXX...XX',
+        '...XX..XX..XX...X',
+        '...X...X....XX..X',
+        'X..X...X..X..X..X',
+        'X..XX..XXXX..X..X',
+        'X...X.......XX..X',
+        'XX..XX......X...X',
+        '.XX..XXX.XXXX..XX',
+        '..X....XXX....XX.',
+        '..XXX........XX..',
+        '....XXX....XXX...',
+        '......XXXXXX.....',
       ],
     },
   };
@@ -174,7 +218,7 @@
   const ALIGNMENTS = { left: 'Left', center: 'Center' };
 
   const LENGTH_RANGE = { min: 3, max: 16 };
-  const DEFAULT_LETTERS = 'ILOVEYOU';
+  const DEFAULT_LETTERS = 'CLICKME';
   const DIAGONAL_WEIGHT = 0.35;
 
   // `inputs` is how many custom colors the mode uses.
@@ -225,7 +269,7 @@
     layout: null,
     count: 8,
     fill: 'text',
-    text: 'I love you',
+    text: '',
     colorMode: 'solid',
     colorA: '#e11d6a',
     colorB: '#5db7ff',
