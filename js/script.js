@@ -226,7 +226,7 @@
     size: 'm',
     align: 'left',
     underline: false,
-    fallback: true,
+    fallback: false,
     fallbackText: "Can't tap the letters? Click here.",
   };
 
