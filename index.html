@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Click Me!</title>
+    <meta
+      name="description"
+      content="Format any link into a fun, clickable design you can paste into an email."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%230a7f86'%3E%E2%99%A5%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&family=Courier+Prime:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="js/script.js" defer></script>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Format any link into a fun, clickable design!</h1>
+      </header>
+
+      <section class="win" aria-labelledby="link-title">
+        <div class="bar">
+          <span id="link-title">Link</span>
+          <span class="dots" aria-hidden="true"><i>_</i><i>&#9633;</i><i>x</i></span>
+        </div>
+        <div class="body">
+          <div class="addr">
+            <label for="url">Link:</label>
+            <input
+              type="text"
+              id="url"
+              inputmode="url"
+              autocomplete="off"
+              placeholder="https://example.com/your-page"
+            />
+          </div>
+          <p class="hint" id="url-hint"></p>
+        </div>
+      </section>
+
+      <div class="main">
+        <section class="win preview" aria-labelledby="preview-title">
+          <div class="bar">
+            <span id="preview-title">Preview</span>
+            <span class="dots" aria-hidden="true"><i>_</i><i>&#9633;</i><i>x</i></span>
+          </div>
+          <div class="body">
+            <div class="stage" id="stage"><div id="out"></div></div>
+
+            <button class="btn big" id="copy-design" type="button">Copy link design</button>
+            <p class="msg" id="msg" role="status" aria-live="polite"></p>
+
+            <div class="tools">
+              <button class="btn" id="copy-code" type="button">Copy HTML code</button>
+              <label class="check" for="dark-stage">
+                <input type="checkbox" id="dark-stage" /> Preview on a dark background
+              </label>
+            </div>
+            <p class="note">
+              Paste into the compose window of Gmail, Apple Mail or Outlook, then send yourself a
+              test. Shapes can shift a little between email apps.
+            </p>
+            <details id="code-box">
+              <summary>Show HTML code</summary>
+              <textarea id="code" readonly aria-label="HTML code"></textarea>
+            </details>
+          </div>
+        </section>
+
+        <section class="win options" aria-labelledby="options-title">
+          <div class="bar">
+            <span id="options-title">Options</span>
+            <span class="dots" aria-hidden="true"><i>_</i><i>&#9633;</i><i>x</i></span>
+          </div>
+          <div class="body">
+            <div class="groups">
+              <fieldset class="group wide">
+                <legend>Shape</legend>
+                <p class="sub">Pictures</p>
+                <div class="tiles" id="shapes"></div>
+                <p class="sub">Lines and trails</p>
+                <div class="tiles" id="lines"></div>
+                <div class="range" id="length-row">
+                  <label for="length">Length</label>
+                  <input type="range" id="length" min="3" max="16" step="1" value="8" />
+                  <output id="length-out" for="length">8</output>
+                </div>
+              </fieldset>
+
+              <fieldset class="group">
+                <legend>Characters</legend>
+                <div class="stack">
+                  <div class="row" id="fills" role="group" aria-label="Characters"></div>
+                  <div>
+                    <label class="lbl" for="text">Letters to spell</label>
+                    <input
+                      type="text"
+                      id="text"
+                      autocomplete="off"
+                      maxlength="40"
+                      placeholder="I love you"
+                    />
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="group">
+                <legend>Color</legend>
+                <div class="stack">
+                  <div class="tiles" id="color-modes"></div>
+                  <div id="row-a">
+                    <span class="lbl">Color 1</span>
+                    <div class="swatches" id="swatches-a"></div>
+                  </div>
+                  <div id="row-b">
+                    <span class="lbl">Color 2</span>
+                    <div class="swatches" id="swatches-b"></div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="group">
+                <legend>Size and position</legend>
+                <p class="sub">Size</p>
+                <div class="row" id="sizes" role="group" aria-label="Size"></div>
+                <p class="sub">Position in the email</p>
+                <div class="row" id="aligns" role="group" aria-label="Position"></div>
+                <div class="stack stack--spaced">
+                  <label class="check" for="underline">
+                    <input type="checkbox" id="underline" /> Underline each character
+                  </label>
+                  <label class="check" for="fallback">
+                    <input type="checkbox" id="fallback" checked /> Add a plain text link underneath
+                  </label>
+                  <div id="fallback-row">
+                    <label class="lbl" for="fallback-text">Text for that link</label>
+                    <input type="text" id="fallback-text" autocomplete="off" maxlength="80" />
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>
